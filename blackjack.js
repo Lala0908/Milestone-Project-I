@@ -1,6 +1,5 @@
 //JS
 // house vs player (2 player game)
-// win, lose, draw
 
 // create a deck (deck contains 52 cards)(13 cards per suit)
 let suits = ['spades', 'diamonds', 'clubs', 'hearts']
@@ -9,7 +8,6 @@ let deck = [];
 
 //create a function that goes through each value and for each value, creats 4 cards, one for each suit. 
 function createDeck() {
-
 
      deck = [] //assigning an empty value
     //iterating through the values array
@@ -21,7 +19,7 @@ function createDeck() {
         for (let s = 0; s < suits.length; s++) {
 
             //console.log(suits[s])
-            // turning values from array into numbers(integers)
+            // turning values from array into numbers(integers)- w3 school (parseInt)
             let weight = parseInt(values[i]);
             //console.log(weight)
             if (values[i] === "J" || values[i] === "Q" || values[i] === "K") {
@@ -41,20 +39,36 @@ createDeck()
 //console.log(deck)
 
 // suffle deck (randomly choose 2 cards [2 for each player]) - googled shuffled items in an array (used The Fisher-Yates algorith - one of the options that was a bit simpler and i understood better).
-function shuffle (array) {
-    for (let i = array.length - 1; i > 0; i--) {
+function shuffleDeck () {
+    for (let i = deck.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
+      const temp = deck[i];
+      deck[i] = deck[j];
+      deck[j] = temp;
     }
   }
-  shuffle (deck)
   //console.log(deck)
 
 // select a card (random)
 // player is dealt 2 cards (at random)
 // house is dealt 2 cards (at random)
+//when I click new game, cards load for both player and you at random. 
+function newGame(){
+ createDeck()
+ shuffleDeck()
+ let dealerHiddenCard=deck.pop()
+ let dealerVisibleCard=deck.pop()
+ let youFirstCard=deck.pop()
+ let youSecondCard=deck.pop()
+ console.log(dealerHiddenCard)
+}
+//Fetching the new-game button to JS
+let newGameButton=document.getElementById("new-game")
+
+newGameButton.addEventListener("click",newGame)
+
+
+
 // hide one of dealers cards
 // house goes over 21 = house loses
 // player goes over 21 = player loses
@@ -62,7 +76,7 @@ function shuffle (array) {
 // both players get to 21 = draw
 // player hold higer cards than house = player wins (even if less than 21)
 // house holds higher cards than player = house wins (even if less than 21)
-
+// win, lose, draw
 
 
 //HTML
