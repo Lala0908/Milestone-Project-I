@@ -53,26 +53,40 @@ function shuffleDeck () {
 let players = []
 function createPlayers(){
 
-    let player1 = {Name: "dealer", Points: 0, Hand:[]} //object
+    const player1 = {Name: "dealer", Points: 0, Hand:[]} //object
     players.push(player1);
 
-    let player2 = {Name: 'you', Point: 0, Hand:[]}
+    const player2 = {Name: 'you', Point: 0, Hand:[]}
     players.push(player2);
 
 }
 // // select a card (random)
 // // player is dealt 2 cards (at random)
 // // house is dealt 2 cards (at random)
-// //when I click new game, cards load for both player and you at random. 
+
 function dealHands(){
+    const card1=deck.pop();
+    const card2=deck.pop();
+    const card3=deck.pop();
+    const card4= deck.pop();
+    players[0].Hand.push(card1);
+    players[1].Hand.push(card2);
+    players[0].Hand.push(card3);
+    players[1].Hand.push(card4);
+    
+}
+
+function newGame(){
+ 
  createDeck()
  shuffleDeck()
- let dealerHiddenCard=deck.pop()
- let dealerVisibleCard=deck.pop()
- let youFirstCard=deck.pop()
- let youSecondCard=deck.pop()
+ createPlayers()
+ dealHands()
+
   //console.log(dealerVisibleCard)
  }
+
+ 
 // //Fetching the new-game button to JS
  let newGameButton=document.getElementById("new-game")
 newGameButton.addEventListener("click",newGame)
