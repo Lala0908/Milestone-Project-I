@@ -63,37 +63,64 @@ function dealHands() {
   const card2 = deck.pop();
   const card3 = deck.pop();
   const card4 = deck.pop();
+
   players[0].Hand.push(card1);
   players[1].Hand.push(card2);
   players[0].Hand.push(card3);
   players[1].Hand.push(card4);
 }
 
+//https://www.geeksforgeeks.org/how-to-create-an-image-element-dynamically-using-javascript/
+
 function renderCards() {
   let img = document.createElement("img");
   img.src = `./Cards/BACK.png`;
-  console.log(img.src)
+  console.log(img.src);
   document.getElementById("dealer-cards").appendChild(img);
 
   img = document.createElement("img");
-  value = players[0].Hand[1].Value
-  suits = players[0].Hand[1].Suits
+  value = players[0].Hand[1].Value;
+  suits = players[0].Hand[1].Suits;
   img.src = `./Cards/${value}-${suits}.png`;
-  console.log(img.src)
+  console.log(img.src);
   document.getElementById("dealer-cards").appendChild(img);
 
   img = document.createElement("img");
-  value = players[1].Hand[0].Value
-  suits = players[1].Hand[0].Suits
+  value = players[1].Hand[0].Value;
+  suits = players[1].Hand[0].Suits;
   img.src = `./Cards/${value}-${suits}.png`;
-  console.log(img.src)
+  console.log(img.src);
   document.getElementById("your-cards").appendChild(img);
 
   img = document.createElement("img");
-  value = players[1].Hand[1].Value
-  suits = players[1].Hand[1].Suits
+  value = players[1].Hand[1].Value;
+  suits = players[1].Hand[1].Suits;
   img.src = `./Cards/${value}-${suits}.png`;
-  console.log(img.src)
+  console.log(img.src);
+  document.getElementById("your-cards").appendChild(img);
+}
+//https://www.w3schools.com/jsref/met_document_createelement.asp
+
+function renderPoints() {
+  let para = document.createElement("p");
+  let points = players[0].Hand[1].Weight;
+  para.innerHTML = `Points:${points}`;
+  document.getElementById("dealer-div").appendChild(para);
+
+  para = document.createElement("p");
+  points = players[1].Hand[0].Weight + players[1].Hand[1].Weight;
+  para.innerHTML = `Points:${points}`;
+  document.getElementById("your-div").appendChild(para);
+}
+
+function hit() {
+  const card5 = deck.pop();
+  players[1].Hand.push(card5);
+  let img = document.createElement("img");
+  let value = players[1].Hand[2].Value;
+  let suits = players[1].Hand[2].Suits;
+  img.src = `./Cards/${value}-${suits}.png`;
+  console.log(img.src);
   document.getElementById("your-cards").appendChild(img);
 }
 
@@ -104,15 +131,17 @@ function newGame() {
   dealHands();
   renderCards();
   document.getElementById("new-game").disabled = true;
+  renderPoints();
+  
 }
 
 // //Fetching the new-game button to JS
 let newGameButton = document.getElementById("new-game");
 newGameButton.addEventListener("click", newGame);
 
-// function dealerNewThirdCard() {}
-// let hitGameButton = document.getElementById("hit");
-// hitGameButton.addEventListener("click", hit);
+//Fetching the hit button to JS
+let hitGameButton = document.getElementById("hit");
+hitGameButton.addEventListener("click", hit);
 
 // // hide one of dealers cards
 // // house goes over 21 = house loses
