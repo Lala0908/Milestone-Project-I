@@ -67,8 +67,8 @@ function dealHands() {
   players[1].Hand.push(card2);
   players[0].Hand.push(card3);
   players[1].Hand.push(card4);
-  players[0].Points=card1.Weight+card3.Weight
-  players[1].Points=card2.Weight+card4.Weight
+  players[0].Points = card1.Weight + card3.Weight;
+  players[1].Points = card2.Weight + card4.Weight;
 }
 
 //https://www.geeksforgeeks.org/how-to-create-an-image-element-dynamically-using-javascript/
@@ -123,23 +123,37 @@ function hit() {
   img.src = `./Cards/${card.Value}-${card.Suits}.png`;
   console.log(img.src);
   document.getElementById("your-cards").appendChild(img);
-  players[1].Points=players[1].Points+card.Weight
-  document.getElementById("your-points").innerHTML = `Points:${players[1].Points}`;
+  players[1].Points = players[1].Points + card.Weight;
+  document.getElementById(
+    "your-points"
+  ).innerHTML = `Points:${players[1].Points}`;
 }
 
-function hitDealer(){
-    const card = deck.pop();
+function hitDealer() {
+  const card = deck.pop();
   players[0].Hand.push(card);
   let img = document.createElement("img");
   img.src = `./Cards/${card.Value}-${card.Suits}.png`;
   console.log(img.src);
   document.getElementById("dealer-cards").appendChild(img);
-  players[0].Points=players[0].Points+card.Weight
-  document.getElementById("dealer-points").innerHTML = `Points:${players[0].Points}`;
+  players[0].Points = players[0].Points + card.Weight;
+  document.getElementById(
+    "dealer-points"
+  ).innerHTML = `Points:${players[0].Points}`;
 }
 
 function stay() {
+  if (players[0].Points <= 17) {
+    hitDealer();
+  } else if (players[0].Points >= 18) {
+    console.log("dealer-stays");
+  }
 
+  // if I stay, control is given to dealer
+  // then dealer decided based on his 2 renderCards, whether to hit or stay
+  // if dealer has 17 or less, he hits
+  // if dealer has 18 or more he stays
+  // then points are calculated
 }
 
 function newGame() {
