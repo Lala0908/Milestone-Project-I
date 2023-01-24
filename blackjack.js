@@ -1,5 +1,3 @@
-//JS
-
 // create a deck (deck contains 52 cards)(13 cards per suit)
 let suits = ["Spades", "Diamonds", "Clubs", "Hearts"];
 let values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
@@ -57,6 +55,7 @@ function createPlayers() {
 // // select a card (random)
 // // player is dealt 2 cards (at random)
 // // house is dealt 2 cards (at random)
+// alternatively
 
 function dealHands() {
   const card1 = deck.pop();
@@ -71,8 +70,9 @@ function dealHands() {
 }
 
 //https://www.geeksforgeeks.org/how-to-create-an-image-element-dynamically-using-javascript/
-
+//creating an image element
 function renderCards() {
+  //hiding one of the dealer's cards
   let img = document.createElement("img");
   img.src = `./Cards/BACK.png`;
   console.log(img.src);
@@ -100,29 +100,39 @@ function renderCards() {
   document.getElementById("your-cards").appendChild(img);
 }
 //https://www.w3schools.com/jsref/met_document_createelement.asp
-
+//creating a paragrahp element
 function renderPoints() {
   let para = document.createElement("p");
   let points = players[0].Hand[1].Weight;
   para.innerHTML = `Points:${points}`;
+  para.id = "dealer-points";
   document.getElementById("dealer-div").appendChild(para);
 
   para = document.createElement("p");
   points = players[1].Hand[0].Weight + players[1].Hand[1].Weight;
   para.innerHTML = `Points:${points}`;
+  para.id = "your-points";
   document.getElementById("your-div").appendChild(para);
 }
-
+//pop a card from the deck, hand it to the player and render the last card in the player's hand
 function hit() {
-  const card5 = deck.pop();
-  players[1].Hand.push(card5);
+  const card = deck.pop();
+  players[1].Hand.push(card);
   let img = document.createElement("img");
-  let value = players[1].Hand[2].Value;
-  let suits = players[1].Hand[2].Suits;
+  let lastcardindex = players[1].Hand.length - 1;
+  let value = players[1].Hand[lastcardindex].Value;
+  let suits = players[1].Hand[lastcardindex].Suits;
   img.src = `./Cards/${value}-${suits}.png`;
   console.log(img.src);
   document.getElementById("your-cards").appendChild(img);
+  //   let points=0
+  //   for (let i = 0; i < players[1].Hand.length; i++){
+  // points = points
+  //   }
+  document.getElementById("your-points").innerHTML = `Points:${points}`;
 }
+
+function stay() {}
 
 function newGame() {
   createDeck();
@@ -132,7 +142,6 @@ function newGame() {
   renderCards();
   document.getElementById("new-game").disabled = true;
   renderPoints();
-  
 }
 
 // //Fetching the new-game button to JS
@@ -143,7 +152,10 @@ newGameButton.addEventListener("click", newGame);
 let hitGameButton = document.getElementById("hit");
 hitGameButton.addEventListener("click", hit);
 
-// // hide one of dealers cards
+//Fetching the stay button to JS
+let stayGameButton = document.getElementById("stay");
+stayGameButton.addEventListener("click", stay);
+
 // // house goes over 21 = house loses
 // // player goes over 21 = player loses
 // // player or house gets to 21 = wins
@@ -151,10 +163,3 @@ hitGameButton.addEventListener("click", hit);
 // // player hold higer cards than house = player wins (even if less than 21)
 // // house holds higher cards than player = house wins (even if less than 21)
 // // win, lose, draw
-
-// //HTML
-// //deck
-// // house cards
-// // player cards
-// //add buttons for more cards (hit me or stay)
-// //keep player's score
