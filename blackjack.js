@@ -67,6 +67,8 @@ function dealHands() {
   players[1].Hand.push(card2);
   players[0].Hand.push(card3);
   players[1].Hand.push(card4);
+  players[0].Points=card1.Weight+card3.Weight
+  players[1].Points=card2.Weight+card4.Weight
 }
 
 //https://www.geeksforgeeks.org/how-to-create-an-image-element-dynamically-using-javascript/
@@ -109,8 +111,7 @@ function renderPoints() {
   document.getElementById("dealer-div").appendChild(para);
 
   para = document.createElement("p");
-  points = players[1].Hand[0].Weight + players[1].Hand[1].Weight;
-  para.innerHTML = `Points:${points}`;
+  para.innerHTML = `Points:${players[1].Points}`;
   para.id = "your-points";
   document.getElementById("your-div").appendChild(para);
 }
@@ -119,20 +120,27 @@ function hit() {
   const card = deck.pop();
   players[1].Hand.push(card);
   let img = document.createElement("img");
-  let lastcardindex = players[1].Hand.length - 1;
-  let value = players[1].Hand[lastcardindex].Value;
-  let suits = players[1].Hand[lastcardindex].Suits;
-  img.src = `./Cards/${value}-${suits}.png`;
+  img.src = `./Cards/${card.Value}-${card.Suits}.png`;
   console.log(img.src);
   document.getElementById("your-cards").appendChild(img);
-  //   let points=0
-  //   for (let i = 0; i < players[1].Hand.length; i++){
-  // points = points
-  //   }
-  document.getElementById("your-points").innerHTML = `Points:${points}`;
+  players[1].Points=players[1].Points+card.Weight
+  document.getElementById("your-points").innerHTML = `Points:${players[1].Points}`;
 }
 
-function stay() {}
+function hitDealer(){
+    const card = deck.pop();
+  players[0].Hand.push(card);
+  let img = document.createElement("img");
+  img.src = `./Cards/${card.Value}-${card.Suits}.png`;
+  console.log(img.src);
+  document.getElementById("dealer-cards").appendChild(img);
+  players[0].Points=players[0].Points+card.Weight
+  document.getElementById("dealer-points").innerHTML = `Points:${players[0].Points}`;
+}
+
+function stay() {
+
+}
 
 function newGame() {
   createDeck();
