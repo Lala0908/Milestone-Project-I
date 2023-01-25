@@ -143,18 +143,41 @@ function hitDealer() {
 }
 
 function stay() {
+    console.log(players[0].Points)
   if (players[0].Points <= 17) {
     hitDealer();
-  } else if (players[0].Points >= 18) {
+  } 
+  else if (players[0].Points >= 18) {
     console.log("dealer-stays");
+    endGame()
   }
 
-  // if I stay, control is given to dealer
-  // then dealer decided based on his 2 renderCards, whether to hit or stay
-  // if dealer has 17 or less, he hits
-  // if dealer has 18 or more he stays
-  // then points are calculated
 }
+
+function endGame(){
+    if (players[0].Points>21){
+        console.log("dealer-loses")
+    }
+    else if (players[1].Points>21){
+        console.log("you-loses")
+    }
+    else if (players[0].Points>players[1].Points){
+        console.log('dealer-wins')
+    }
+    else if(players[1].Points>players[0].Points){
+        console.log('you-wins')
+    }
+    else if (players[1].Points===players[0].Points){
+        console.log('tie')
+    }
+   
+// compare players scorers 
+// whoever has the most 
+// if either dealer or you has more than 21, they lose
+}
+
+
+
 
 function newGame() {
   createDeck();
@@ -164,7 +187,9 @@ function newGame() {
   renderCards();
   document.getElementById("new-game").disabled = true;
   renderPoints();
+
 }
+
 
 // //Fetching the new-game button to JS
 let newGameButton = document.getElementById("new-game");
