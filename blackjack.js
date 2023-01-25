@@ -75,12 +75,13 @@ function dealHands() {
 //creating an image element
 function renderCards() {
   //hiding one of the dealer's cards
-  let img = document.createElement("img");
-  img.src = `./Cards/BACK.png`;
-  console.log(img.src);
-  document.getElementById("dealer-cards").appendChild(img);
+  const img1 = document.createElement("img");
+  img1.src = `./Cards/BACK.png`;
+  img1.id = "flipped-card";
+  console.log(img1.src);
+  document.getElementById("dealer-cards").appendChild(img1);
 
-  img = document.createElement("img");
+  let img = document.createElement("img");
   value = players[0].Hand[1].Value;
   suits = players[0].Hand[1].Suits;
   img.src = `./Cards/${value}-${suits}.png`;
@@ -101,6 +102,13 @@ function renderCards() {
   console.log(img.src);
   document.getElementById("your-cards").appendChild(img);
 }
+
+function unflipCard() {
+  const img = document.getElementById("flipped-card");
+  let value = players[0].Hand[0].Value;
+  let suits = players[0].Hand[0].Suits;
+  img.src = `./Cards/${value}-${suits}.png`;
+}
 //https://www.w3schools.com/jsref/met_document_createelement.asp
 //creating a paragrahp element
 function renderPoints() {
@@ -113,7 +121,7 @@ function renderPoints() {
   para = document.createElement("p");
   para.innerHTML = `Points:${players[1].Points}`;
   para.id = "your-points";
-  document.getElementById("your-div").appendChild(para);
+  document.getElementById("you-div").appendChild(para);
 }
 //pop a card from the deck, hand it to the player and render the last card in the player's hand
 function hit() {
@@ -127,6 +135,8 @@ function hit() {
   document.getElementById(
     "your-points"
   ).innerHTML = `Points:${players[1].Points}`;
+  checkBust();
+  checkVictory();
 }
 
 function hitDealer() {
@@ -140,46 +150,78 @@ function hitDealer() {
   document.getElementById(
     "dealer-points"
   ).innerHTML = `Points:${players[0].Points}`;
+  checkBust();
+  checkVictory();
 }
 
 function stay() {
-    console.log(players[0].Points)
+  console.log(players[0].Points);
   if (players[0].Points <= 17) {
     hitDealer();
-  } 
-  else if (players[0].Points >= 18) {
+  } else if (players[0].Points >= 18) {
     console.log("dealer-stays");
-    endGame()
+    endGame();
   }
-
 }
 
-function endGame(){
-    if (players[0].Points>21){
-        console.log("dealer-loses")
-    }
-    else if (players[1].Points>21){
-        console.log("you-loses")
-    }
-    else if (players[0].Points>players[1].Points){
-        console.log('dealer-wins')
-    }
-    else if(players[1].Points>players[0].Points){
-        console.log('you-wins')
-    }
-    else if (players[1].Points===players[0].Points){
-        console.log('tie')
-    }
-   
-// compare players scorers 
-// whoever has the most 
-// if either dealer or you has more than 21, they lose
+function checkBust() {
+  if (players[0].Points > 21) {
+    console.log("dealer-loses");
+    displayMessages("dealer", "loses");
+    unflipCard();
+  } else if (players[1].Points > 21) {
+    console.log("you-loses");
+    //document.getElementById("new-game").disabled = false;
+    displayMessages("you", "lose");
+    unflipCard();
+  }
 }
 
+function checkVictory() {
+  if (players[0].Points === 21) {
+    console.log("dealer-wins");
+    displayMessages("dealer", "wins");
+    unflipCard();
+  } else if (players[1].Points === 21) {
+    console.log("you-wins");
+    //document.getElementById("new-game").disabled = false;
+    displayMessages("you", "win");
+    unflipCard();
+  }
+}
+function displayMessages(player, result) {
+  let para = document.createElement("p");
+  para.id = "displayMessages";
+  para.innerHTML = `${player} ${result}!`;
+  document.getElementById(`${player}-div`).appendChild(para);
+}
 
-
+function endGame() {
+  if (players[0].Points > 21) {
+    console.log("dealer-loses");
+    displayMessages("dealer", "loses");
+  } else if (players[1].Points > 21) {
+    console.log("you-loses");
+    displayMessages("you", "lose");
+  } else if (players[0].Points > players[1].Points) {
+    console.log("dealer-wins");
+    displayMessages("dealer", "wins");
+  } else if (players[1].Points > players[0].Points) {
+    console.log("you-wins");
+    displayMessages("you", "win");
+  } else if (players[1].Points === players[0].Points) {
+    console.log("tie");
+    displayMessages("dealer", "ties");
+    displayMessages("you", "tie");
+  }
+  unflipCard();
+  //document.getElementById("new-game").disabled = false;
+}
 
 function newGame() {
+  //document.getElementById("dealer-cards").innerHTML = "";
+  //document.getElementById("your-cards").innerHTML = "";
+
   createDeck();
   shuffleDeck();
   createPlayers();
@@ -187,9 +229,7 @@ function newGame() {
   renderCards();
   document.getElementById("new-game").disabled = true;
   renderPoints();
-
 }
-
 
 // //Fetching the new-game button to JS
 let newGameButton = document.getElementById("new-game");
@@ -202,11 +242,3 @@ hitGameButton.addEventListener("click", hit);
 //Fetching the stay button to JS
 let stayGameButton = document.getElementById("stay");
 stayGameButton.addEventListener("click", stay);
-
-// // house goes over 21 = house loses
-// // player goes over 21 = player loses
-// // player or house gets to 21 = wins
-// // both players get to 21 = draw
-// // player hold higer cards than house = player wins (even if less than 21)
-// // house holds higher cards than player = house wins (even if less than 21)
-// // win, lose, draw

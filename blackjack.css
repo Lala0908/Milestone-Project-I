@@ -7,3 +7,6 @@ img{
     height: 170px;
     width: 110px;
 }
+#displayMessages{
+    text-transform:capitalize;
+}
