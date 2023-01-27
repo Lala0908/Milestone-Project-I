@@ -2,6 +2,7 @@
 let suits = ["Spades", "Diamonds", "Clubs", "Hearts"];
 let values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 let isGameOver = false;
+let players = [];
 let deck = [];
 
 //create a function that goes through each value and for each value, creates 4 cards, one for each suit.
@@ -45,7 +46,7 @@ function shuffleDeck() {
 
 // house vs player (2 player game) - create players
 
-let players = [];
+
 function createPlayers() {
   const player1 = { Name: "dealer", Points: 0, Hand: [] }; //object
   players.push(player1);
@@ -76,11 +77,11 @@ function dealHands() {
 //creating an image element
 function renderCards() {
   //hiding one of the dealer's cards
-  const img1 = document.createElement("img");
-  img1.src = `./Cards/BACK.png`;
-  img1.id = "flipped-card";
+  const img1 = document.createElement("img");//empty image element
+  img1.src = `./Cards/BACK.png`; // hidden card
+  img1.id = "flipped-card"; // needed an id to be fetched later to flip card
   console.log(img1.src);
-  document.getElementById("dealer-cards").appendChild(img1);
+  document.getElementById("dealer-cards").appendChild(img1);//rendering this card at end of div
 
   let img = document.createElement("img");
   value = players[0].Hand[1].Value;
@@ -89,8 +90,8 @@ function renderCards() {
   console.log(img.src);
   document.getElementById("dealer-cards").appendChild(img);
 
-  img = document.createElement("img");
-  value = players[1].Hand[0].Value;
+  img = document.createElement("img");//created an empty img element
+  value = players[1].Hand[0].Value; // then here I give it what it needs
   suits = players[1].Hand[0].Suits;
   img.src = `./Cards/${value}-${suits}.png`;
   console.log(img.src);
@@ -180,6 +181,7 @@ function stay() {
     document.getElementById("dealer-points").innerHTML = `Points:${players[0].Points}`;
     endGame();
     
+    //this function decides what the dealer is going to do
 
   } 
 }
@@ -207,7 +209,7 @@ function checkVictory() {
     isGameOver = true;
   } else if (players[1].Points === 21) {
     console.log("you-wins");
-    //document.getElementById("new-game").disabled = false;
+    //document.getElementById("new-game").enable = true;
     displayMessages("you", "win");
     unflipCard();
     isGameOver = true;
@@ -241,7 +243,7 @@ function endGame() {
     displayMessages("you", "tie");
   }
   unflipCard();
-  //document.getElementById("new-game").enable = true;
+  //document.getElementById("new-game").enabled = true;
 }
 
 function newGame() {
@@ -256,7 +258,13 @@ function newGame() {
   document.getElementById("new-game").disabled = true;
   renderPoints();
   checkVictory();
+  //document.getElementById("new-game").enabled = true;
+  
 }
+
+// function enableBtn(){
+//     document.getElementById('new-game').disabled = false;
+// }
 
 // //Fetching the new-game button to JS
 let newGameButton = document.getElementById("new-game");
